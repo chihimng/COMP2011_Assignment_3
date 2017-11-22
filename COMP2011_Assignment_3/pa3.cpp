@@ -20,7 +20,13 @@ using namespace std;
 Frame * GetFrame(const Video & video, const int frame_index)
 {
 	// your implementation
-
+    int i = 0;
+    for (Frame* p = video.first_frame; p != nullptr; p = p->next_frame, i++) {
+        if (i == frame_index) {
+            return p;
+        }
+    }
+    return nullptr;
 }
 
 /*
