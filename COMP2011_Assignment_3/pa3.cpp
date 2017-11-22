@@ -75,7 +75,31 @@ VehicleFrameInfo * GetVFInfo(const Vehicle * vehicle, const int frame_index)
 bool InitializeNewFrame(Video & video)
 {
 	// your implementation
-
+    if (video.num_processed_frames >= video.num_frames) {
+        return false;
+    }
+    // init data
+    Frame* newFramePtr = new Frame;
+    newFramePtr->index = video.num_processed_frames;
+    newFramePtr->image = video.raw_data[video.num_processed_frames];
+    newFramePtr->num_vehicles = 0;
+    for (int i = 0; i < MAX_VEHICLE_NUM; i++) {
+        newFramePtr->vehicles[i] = nullptr;
+    }
+    newFramePtr->next_frame = nullptr;
+    // append linked list
+    if (video.first_frame == nullptr) {
+        video.first_frame = newFramePtr;
+    } else {
+        for (Frame* p = video.first_frame; p != nullptr; p = p->next_frame) {
+            if (p->next_frame == nullptr) {
+                p->next_frame = newFramePtr;
+                break;
+            }
+        }
+    }
+    video.num_processed_frames += 1;
+    return true;
 }
 
 /*
