@@ -9,19 +9,19 @@
 /* Begin PBXBuildFile section */
 		D98CCD411FC5BF2500279850 /* pa3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D98CCD3F1FC5BF2500279850 /* pa3.cpp */; };
 		D98CCD421FC5BF2500279850 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D98CCD401FC5BF2500279850 /* main.cpp */; };
-		D98CCD441FC5BF7000279850 /* video.txt in CopyFiles */ = {isa = PBXBuildFile; fileRef = D98CCD431FC5BF6100279850 /* video.txt */; };
+		D98CCD441FC5BF7000279850 /* video.txt in CopyFiles */ = {isa = PBXBuildFile; fileRef = D98CCD431FC5BF6100279850 /* video.txt */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		D9314AD81FC5BED5007C07F0 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 12;
 			dstPath = "";
 			dstSubfolderSpec = 6;
 			files = (
 				D98CCD441FC5BF7000279850 /* video.txt in CopyFiles */,
 			);
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
