@@ -39,7 +39,7 @@ Frame * GetFrame(const Video & video, const int frame_index)
 Vehicle * GetVehicle(const Video & video, const int vehicle_index)
 {
 	// your implementation
-
+    return vehicle_index < video.num_vehicles ? video.vehicles[vehicle_index] : nullptr;
 }
 
 /*
