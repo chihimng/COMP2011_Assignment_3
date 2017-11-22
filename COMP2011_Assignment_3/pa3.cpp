@@ -53,7 +53,12 @@ Vehicle * GetVehicle(const Video & video, const int vehicle_index)
 VehicleFrameInfo * GetVFInfo(const Vehicle * vehicle, const int frame_index)
 {
 	// your implementation
-
+    for (VehicleFrameInfo* p = vehicle->first_frame_info; p != nullptr; p = p->next_frame_info) {
+        if (p->frame_index == frame_index) {
+            return p;
+        }
+    }
+    return nullptr;
 }
 
 /*
