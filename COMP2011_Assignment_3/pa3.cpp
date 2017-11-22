@@ -244,7 +244,21 @@ bool FindAndAddNewVehicles(Video & video)
 double AverageRoadSpeed(Video & video)
 {
 	// your implementation
-
+    double sum = 0;
+    int count = 0;
+    for (int i = 0; i < video.num_vehicles; i++) {
+        VehicleFrameInfo* vhInfoPtr = video.vehicles[i]->first_frame_info;
+        while (vhInfoPtr->next_frame_info != nullptr) {
+            sum += vhInfoPtr->speed;
+            count += 1;
+            vhInfoPtr = vhInfoPtr->next_frame_info;
+        }
+    }
+    if (count <= 0) {
+        return 0;
+    } else {
+        return sum / count;
+    }
 }
 
 /*
