@@ -205,6 +205,34 @@ bool FindAndAddNewVehicles(Video & video)
 		// construct and add a new vehicle
 
 		// construct and add a new vf_info
+    Frame* lastFrame = video.first_frame;
+    while (lastFrame->next_frame != nullptr) {
+        lastFrame = lastFrame->next_frame;
+    }
+    for (int i = 1; i < ROWS; i += 2) {
+        if (lastFrame->image[i][0] == '*') {
+            Vehicle* newVehiclePtr = new Vehicle;
+            newVehiclePtr->index = video.num_vehicles;
+            newVehiclePtr->num_visible_frames = 1;
+
+            VehicleFrameInfo* newVFInfoPtr = new VehicleFrameInfo;
+            newVFInfoPtr->vehicle_index = video.num_vehicles;
+            newVFInfoPtr->frame_index = lastFrame->index;
+            newVFInfoPtr->position[0] = i;
+            newVFInfoPtr->position[1] = 0;
+            newVFInfoPtr->speed = 1;
+            newVFInfoPtr->next_frame_info = nullptr;
+
+            newVehiclePtr->first_frame_info = newVFInfoPtr;
+
+            video.vehicles[video.num_vehicles] = newVehiclePtr;
+            video.num_vehicles += 1;
+            lastFrame->vehicles[lastFrame->num_vehicles] = newVehiclePtr;
+            lastFrame->num_vehicles += 1;
+        }
+    }
+    return true;
+    // FIXME: what the fuck is frame index invalid?????????????
 }
 
 /*
