@@ -261,6 +261,24 @@ double AverageRoadSpeed(Video & video)
     }
 }
 
+void deleteFrame(Frame* framePtr) {
+    if (framePtr == nullptr) {
+        return;
+    }
+    deleteFrame(framePtr->next_frame);
+    delete framePtr;
+    framePtr = nullptr;
+}
+
+void deleteVFInfo(VehicleFrameInfo* vfInfoPtr) {
+    if (vfInfoPtr == nullptr) {
+        return;
+    }
+    deleteVFInfo(vfInfoPtr->next_frame_info);
+    delete vfInfoPtr;
+    vfInfoPtr = nullptr;
+}
+
 /*
  * Description: clean all memories of the video, including raw_data, all frames, vehicles and vf_infos.
  *
@@ -270,5 +288,23 @@ double AverageRoadSpeed(Video & video)
 void CleanVideo(Video & video)
 {
 	// your implementation
+    for (int i = 0; i < ROWS; i++) {
+        for (int j = 0; j < COLS; j++) {
+            delete [] video.raw_data[i][j];
+            video.raw_data[i][j] = nullptr;
+        }
+        delete [] video.raw_data[i];
+        video.raw_data[i] = nullptr;
+    }
+    delete [] video.raw_data;
+    video.raw_data = nullptr;
 
+    deleteFrame(video.first_frame);
+    video.first_frame = nullptr;
+
+    for (int i = 0; i < video.num_vehicles; i++) {
+        deleteVFInfo(video.vehicles[i]->first_frame_info);
+        delete video.vehicles[i];
+        video.vehicles[i] = nullptr;
+    }
 }
