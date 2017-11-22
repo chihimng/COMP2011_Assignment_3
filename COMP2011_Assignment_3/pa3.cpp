@@ -135,6 +135,15 @@ bool AddVFInfo(Video & video, VehicleFrameInfo * vehicle_frame_info)
     return true;
 }
 
+bool isVehicleInFrame(const Vehicle* vehicle, const Frame* frame) {
+    for (int i = 0; i < MAX_VEHICLE_NUM && frame->vehicles[i] != nullptr; i++) {
+        if (frame->vehicles[i]->index == vehicle->index) {
+            return true;
+        }
+    }
+    return false;
+}
+
 /*
  * Description: track the vehicle in the new frame and return the new info. The speed
  *              is the distance between positions of the vehicle in two frames and note
@@ -150,7 +159,29 @@ bool AddVFInfo(Video & video, VehicleFrameInfo * vehicle_frame_info)
 VehicleFrameInfo * TrackVehicle(const Vehicle * vehicle, const Frame * current_frame, const Frame * prev_frame)
 {
 	// your implementation
-
+    if (!isVehicleInFrame(vehicle, prev_frame) || !isVehicleInFrame(vehicle, current_frame)) {
+        return nullptr;
+    }
+    VehicleFrameInfo* newVFInfoPtr = new VehicleFrameInfo;
+    newVFInfoPtr->vehicle_index = vehicle->index;
+    newVFInfoPtr->frame_index = current_frame->index;
+    VehicleFrameInfo* lastVFInfoPtr = vehicle->first_frame_info;
+    while (lastVFInfoPtr->next_frame_info != nullptr) {
+        lastVFInfoPtr = lastVFInfoPtr->next_frame_info;
+    }
+    int row = lastVFInfoPtr->position[0];
+    int lastCol = lastVFInfoPtr->position[1];
+    int newCol = lastCol;
+    for (; newCol <= lastCol+MAX_SPEED; newCol++) {
+        if (current_frame->image[row][newCol] == '*') {
+            break;
+        }
+    }
+    newVFInfoPtr->position[0] = row;
+    newVFInfoPtr->position[1] = newCol;
+    newVFInfoPtr->speed = newCol - lastCol;
+    newVFInfoPtr->next_frame_info = nullptr;
+    return newVFInfoPtr;
 }
 
 /*
