@@ -116,7 +116,23 @@ bool InitializeNewFrame(Video & video)
 bool AddVFInfo(Video & video, VehicleFrameInfo * vehicle_frame_info)
 {
 	// your implementation
-
+    // check if frame and vehicle in video
+    Frame* targetFramePtr = GetFrame(video, vehicle_frame_info->frame_index);
+    Vehicle* targetVehiclePtr = GetVehicle(video, vehicle_frame_info->vehicle_index);
+    if (targetFramePtr == nullptr || targetVehiclePtr == nullptr) {
+        return false;
+    }
+    // append vf_info
+    for (VehicleFrameInfo* p = targetVehiclePtr->first_frame_info; p != nullptr; p = p->next_frame_info) {
+        // check if vf_info added already
+        if (p->next_frame_info == vehicle_frame_info) {
+            return false;
+        }
+        if (p->next_frame_info == nullptr) {
+            p->next_frame_info = vehicle_frame_info;
+        }
+    }
+    return true;
 }
 
 /*
