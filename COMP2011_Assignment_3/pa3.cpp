@@ -40,14 +40,6 @@ Vehicle * GetVehicle(const Video & video, const int vehicle_index)
 {
 	// your implementation
     return vehicle_index < video.num_vehicles ? video.vehicles[vehicle_index] : nullptr;
-    /*
-    for (int i = 0; i < video.num_vehicles; i++) {
-        if (video.vehicles[i]->index == vehicle_index) {
-            return video.vehicles[i];
-        }
-    }
-    return nullptr;
-     */
 }
 
 /*
@@ -138,8 +130,9 @@ bool AddVFInfo(Video & video, VehicleFrameInfo * vehicle_frame_info)
         }
         if (p->next_frame_info == nullptr) {
             p->next_frame_info = vehicle_frame_info;
-            targetFramePtr->vehicles[targetFramePtr->num_vehicles] = targetVehiclePtr;
+            targetFramePtr->vehicles[targetVehiclePtr->index] = targetVehiclePtr;
             targetFramePtr->num_vehicles += 1;
+            targetVehiclePtr->num_visible_frames += 1;
             break;
         }
     }
