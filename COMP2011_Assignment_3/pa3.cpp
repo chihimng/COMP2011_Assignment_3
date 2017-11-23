@@ -40,6 +40,14 @@ Vehicle * GetVehicle(const Video & video, const int vehicle_index)
 {
 	// your implementation
     return vehicle_index < video.num_vehicles ? video.vehicles[vehicle_index] : nullptr;
+    /*
+    for (int i = 0; i < video.num_vehicles; i++) {
+        if (video.vehicles[i]->index == vehicle_index) {
+            return video.vehicles[i];
+        }
+    }
+    return nullptr;
+     */
 }
 
 /*
@@ -130,6 +138,9 @@ bool AddVFInfo(Video & video, VehicleFrameInfo * vehicle_frame_info)
         }
         if (p->next_frame_info == nullptr) {
             p->next_frame_info = vehicle_frame_info;
+            targetFramePtr->vehicles[targetFramePtr->num_vehicles] = targetVehiclePtr;
+            targetFramePtr->num_vehicles += 1;
+            break;
         }
     }
     return true;
@@ -159,7 +170,7 @@ bool isVehicleInFrame(const Vehicle* vehicle, const Frame* frame) {
 VehicleFrameInfo * TrackVehicle(const Vehicle * vehicle, const Frame * current_frame, const Frame * prev_frame)
 {
 	// your implementation
-    if (!isVehicleInFrame(vehicle, prev_frame) || !isVehicleInFrame(vehicle, current_frame)) {
+    if (!isVehicleInFrame(vehicle, prev_frame)) {
         return nullptr;
     }
     VehicleFrameInfo* newVFInfoPtr = new VehicleFrameInfo;
@@ -176,6 +187,11 @@ VehicleFrameInfo * TrackVehicle(const Vehicle * vehicle, const Frame * current_f
         if (current_frame->image[row][newCol] == '*') {
             break;
         }
+    }
+    if (newCol >= COLS) {
+        delete newVFInfoPtr;
+        newVFInfoPtr = nullptr;
+        return nullptr;
     }
     newVFInfoPtr->position[0] = row;
     newVFInfoPtr->position[1] = newCol;
@@ -224,7 +240,6 @@ bool FindAndAddNewVehicles(Video & video)
             newVFInfoPtr->next_frame_info = nullptr;
 
             newVehiclePtr->first_frame_info = newVFInfoPtr;
-
             video.vehicles[video.num_vehicles] = newVehiclePtr;
             video.num_vehicles += 1;
             lastFrame->vehicles[lastFrame->num_vehicles] = newVehiclePtr;
