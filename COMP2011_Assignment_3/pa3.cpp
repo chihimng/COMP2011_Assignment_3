@@ -140,7 +140,7 @@ bool AddVFInfo(Video & video, VehicleFrameInfo * vehicle_frame_info)
 }
 
 bool isVehicleInFrame(const Vehicle* vehicle, const Frame* frame) {
-    for (int i = 0; i < MAX_VEHICLE_NUM && frame->vehicles[i] != nullptr; i++) {
+    for (int i = 0; i < MAX_VEHICLE_NUM; i++) {
         if (frame->vehicles[i]->index == vehicle->index) {
             return true;
         }
@@ -233,9 +233,9 @@ bool FindAndAddNewVehicles(Video & video)
             newVFInfoPtr->next_frame_info = nullptr;
 
             newVehiclePtr->first_frame_info = newVFInfoPtr;
-            video.vehicles[video.num_vehicles] = newVehiclePtr;
+            video.vehicles[newVFInfoPtr->vehicle_index] = newVehiclePtr;
             video.num_vehicles += 1;
-            lastFrame->vehicles[lastFrame->num_vehicles] = newVehiclePtr;
+            lastFrame->vehicles[newVFInfoPtr->vehicle_index] = newVehiclePtr;
             lastFrame->num_vehicles += 1;
         }
     }
