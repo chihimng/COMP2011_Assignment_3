@@ -256,7 +256,7 @@ double AverageRoadSpeed(Video & video)
     int count = 0;
     for (int i = 0; i < video.num_vehicles; i++) {
         VehicleFrameInfo* vhInfoPtr = video.vehicles[i]->first_frame_info;
-        while (vhInfoPtr->next_frame_info != nullptr) {
+        while (vhInfoPtr != nullptr) {
             sum += vhInfoPtr->speed;
             count += 1;
             vhInfoPtr = vhInfoPtr->next_frame_info;
