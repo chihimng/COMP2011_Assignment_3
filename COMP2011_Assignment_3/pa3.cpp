@@ -296,8 +296,15 @@ void deleteVFInfo(VehicleFrameInfo* vfInfoPtr) {
 void CleanVideo(Video & video)
 {
 	// your implementation
-    for (int i = 0; i < ROWS; i++) {
-        for (int j = 0; j < COLS; j++) {
+
+    for (int i = 0; i < video.num_frames; i++) {
+        for (int j = 0; j < ROWS; j++) {
+            /*
+            for (int k = 0; k < COLS; k++) {
+                delete video.raw_data[i][j][k];
+                video.raw_data[i][j][k] = nullptr;
+            }
+             */
             delete [] video.raw_data[i][j];
             video.raw_data[i][j] = nullptr;
         }
