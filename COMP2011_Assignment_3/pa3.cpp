@@ -218,6 +218,9 @@ bool FindAndAddNewVehicles(Video & video)
     while (lastFrame->next_frame != nullptr) {
         lastFrame = lastFrame->next_frame;
     }
+    if (lastFrame->index < 0 || lastFrame->index >= video.num_processed_frames) {
+        return false;
+    }
     for (int i = 1; i < ROWS; i += 2) {
         if (lastFrame->image[i][0] == '*') {
             Vehicle* newVehiclePtr = new Vehicle;
@@ -240,7 +243,6 @@ bool FindAndAddNewVehicles(Video & video)
         }
     }
     return true;
-    // FIXME: what the fuck is frame index invalid?????????????
 }
 
 /*
